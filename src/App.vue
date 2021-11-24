@@ -1,7 +1,6 @@
 <template>
   <div id="app"></div>
 </template>
-
 <script>
 import "@/assets/styles/global.scss";
 
@@ -10,5 +9,4 @@ export default {
   components: {},
 };
 </script>
-
 <style></style>
