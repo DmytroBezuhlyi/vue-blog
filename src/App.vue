@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import "@/assets/styles/global.scss";
+
 export default {
   name: "app",
   components: {},
