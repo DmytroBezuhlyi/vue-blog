@@ -4,8 +4,9 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 
+@Component
 export default class AboutPage extends Vue {}
 </script>
 <style lang="scss"></style>

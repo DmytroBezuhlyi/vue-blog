@@ -45,18 +45,18 @@ const router = new VueRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  if (to.matched.some((rec) => rec.meta.requiresAuth)) {
-    const authUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
-
-    if (authUser && authUser.accessToken) {
-      next();
-    } else {
-      next({ name: "LoginPage" });
-    }
-  } else {
-    next();
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some((rec) => rec.meta.requiresAuth)) {
+//     const authUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+//
+//     if (authUser && authUser.accessToken) {
+//       next();
+//     } else {
+//       next({ name: "LoginPage" });
+//     }
+//   } else {
+//     next();
+//   }
+// });
 
 export default router;
