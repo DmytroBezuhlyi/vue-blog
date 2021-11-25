@@ -1,6 +1,7 @@
 <template>
-  <div>
+  <div class="about">
     <h1>About Page</h1>
+    <p>Some content</p>
   </div>
 </template>
 <script lang="ts">
