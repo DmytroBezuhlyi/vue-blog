@@ -54,7 +54,7 @@ export default class HeaderComponent extends Vue {
 
   logout(): void {
     localStorage.clear();
-    this.$router.push({ name: "Login" });
+    this.$router.push({ name: "LoginPage" });
   }
 
   menuNav(): void {
@@ -67,28 +67,35 @@ export default class HeaderComponent extends Vue {
   padding: 0;
   position: relative;
 }
+
 .header-menu {
   width: 100%;
   display: flex;
   justify-content: flex-end;
 }
+
 .el-menu--horizontal.el-menu {
   border: none;
+
   .el-menu-item {
     background: transparent;
+
     a {
       font-size: 16px;
       text-decoration: none;
     }
+
     &.is-active {
       border: none;
     }
   }
+
   @media (max-width: 768px) {
     display: none;
     opacity: 0;
     background: #585757;
   }
+
   &.isOpen {
     position: absolute;
     width: 100%;
@@ -97,6 +104,7 @@ export default class HeaderComponent extends Vue {
     opacity: 1;
   }
 }
+
 .mobile-nav {
   display: none;
   margin: 15px 10px 0 0;
@@ -107,16 +115,20 @@ export default class HeaderComponent extends Vue {
     display: block;
   }
 }
+
 .header-logo {
   padding: 5px 10px;
   display: flex;
+
   img {
     max-width: 100%;
   }
 }
+
 .el-radio-group {
   margin: 15px 15px 0 0;
 }
+
 .logout-btn {
   margin: 15px 15px 0 0;
   font-size: 14px;
