@@ -18,7 +18,7 @@
             autocomplete="on"
           ></el-input>
         </el-form-item>
-        <el-form-item :label="Password" prop="password">
+        <el-form-item label="Password" prop="password">
           <el-input
             data-test="password"
             type="password"
