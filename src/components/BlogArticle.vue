@@ -55,4 +55,38 @@ export default class BlogArticle extends Vue {
   }
 }
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+.post-view {
+  margin-bottom: 40px;
+  &:first-child {
+    margin-top: 20px;
+  }
+  h3 {
+    margin: 0;
+    font-size: 36px;
+    line-height: 42px;
+    text-align: center;
+    color: #1e1e1e;
+  }
+  img {
+    width: 100%;
+  }
+  .post-sub-title {
+    margin: 25px 0;
+    div {
+      text-align: center;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 18px;
+      color: #9b9b9b;
+      strong {
+        color: #4a4a4a;
+      }
+    }
+  }
+  .post-button {
+    text-align: center;
+    margin: 15px 0;
+  }
+}
+</style>
