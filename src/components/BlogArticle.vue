@@ -47,7 +47,7 @@ import { Item } from "@/types/index.ts";
 export default class BlogArticle extends Vue {
   @Prop() item: Item | undefined;
 
-  viewMore(id: string, item: Item): void {
+  viewMore(id: string, item: any): void {
     this.$router.push({
       name: "ArticlePage",
       params: { id, item },
