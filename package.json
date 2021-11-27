@@ -16,7 +16,7 @@
     "i18n": "^0.13.3",
     "normalize.css": "^8.0.1",
     "sass": "^1.43.5",
-    "sass-loader": "^12.3.0",
+    "sass-loader": "^10.2.0",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "^9.1.2",
