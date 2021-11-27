@@ -45,7 +45,7 @@ import { Item } from "@/types/index.ts";
 
 @Component
 export default class BlogArticle extends Vue {
-  @Prop() item: Item | undefined;
+  @Prop() item?: Item;
 
   viewMore(id: string, item: any): void {
     this.$router.push({
