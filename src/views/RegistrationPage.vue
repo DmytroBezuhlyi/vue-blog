@@ -126,6 +126,10 @@ export default class RegistrationPage extends Vue {
       }
     });
   }
+  resetForm(formName: any): void {
+    const ref: any = this.$refs[formName];
+    ref.resetFields();
+  }
 }
 </script>
 <style lang="scss">
