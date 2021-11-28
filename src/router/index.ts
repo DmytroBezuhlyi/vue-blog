@@ -5,6 +5,7 @@ import AboutPage from "@/views/AboutPage.vue";
 import ArticlePage from "@/views/ArticlePage.vue";
 import LoginPage from "@/views/LoginPage.vue";
 import RegistrationPage from "@/views/RegistrationPage.vue";
+import firebase from "firebase/compat";
 
 Vue.use(VueRouter);
 
@@ -45,18 +46,19 @@ const router = new VueRouter({
   routes,
 });
 
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some((rec) => rec.meta.requiresAuth)) {
-//     const authUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
-//
-//     if (authUser && authUser.accessToken) {
-//       next();
-//     } else {
-//       next({ name: "LoginPage" });
-//     }
-//   } else {
-//     next();
-//   }
-// });
+router.beforeEach(async (to, from, next) => {
+  if (to.matched.some((rec) => rec.meta.requiresAuth)) {
+    const authUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+    const token = await firebase.auth().currentUser?.getIdToken();
+
+    if (token && authUser && authUser.accessToken && token === authUser.accessToken) {
+      next();
+    } else {
+      next({name: "LoginPage"});
+    }
+  } else {
+    next();
+  }
+});
 
 export default router;
