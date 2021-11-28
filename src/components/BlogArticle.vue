@@ -28,7 +28,7 @@
       </el-row>
       <el-row type="flex" justify="center">
         <el-col :span="12">
-          <p>Article Text Content</p>
+          <p>{{ item.text }}</p>
         </el-col>
       </el-row>
       <el-row type="flex" justify="center">
