@@ -82,9 +82,9 @@ export default class LoginPage extends Vue {
           trigger: "blur",
         },
         {
-          min: 3,
-          max: 50,
-          message: "Length should be 3 to 50",
+          min: 6,
+          max: 20,
+          message: "Length should be 6 to 20",
           trigger: "blur",
         },
       ],
