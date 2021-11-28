@@ -7,6 +7,7 @@ import "normalize.css";
 
 import firebase from "firebase/compat";
 import "firebase/compat/auth";
+import "firebase/compat/database";
 
 Vue.config.productionTip = false;
 
@@ -19,6 +20,7 @@ firebase.initializeApp({
   storageBucket: "blog-app-750e1.appspot.com",
   messagingSenderId: "823452810138",
   appId: "1:823452810138:web:743e3ff24e1a5f7f649823",
+  databaseURL: "https://blog-app-750e1-default-rtdb.europe-west1.firebasedatabase.app/"
 });
 
 firebase.auth().onAuthStateChanged(() => {

@@ -30,7 +30,7 @@
           <el-button
             data-test="submit"
             type="primary"
-            @click="submitForm('ruleForm')"
+            @click="submitLoginForm('ruleForm')"
           >
             Login
           </el-button>
@@ -39,6 +39,10 @@
           </el-button>
         </el-form-item>
       </el-form>
+      <div>
+        Haven't had an account yet? Please,
+        <router-link to="/registration">sing up</router-link>
+      </div>
     </el-col>
   </el-row>
 </template>
@@ -87,7 +91,7 @@ export default class LoginPage extends Vue {
     };
   }
 
-  submitForm(formName: any) {
+  submitLoginForm(formName: any) {
     (this.$refs[formName] as any).validate(async (valid: any) => {
       if (valid) {
         const formData = {

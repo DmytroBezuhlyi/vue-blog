@@ -53,7 +53,8 @@ export default new Vuex.Store({
       try {
         await firebase.auth().signInWithEmailAndPassword(email, password);
       } catch (err) {
-        console.log(err);
+        console.log(err)
+        throw err;
       }
     },
     getUID() {
@@ -63,6 +64,18 @@ export default new Vuex.Store({
     async logout({ dispatch }) {
       await firebase.auth().signOut();
     },
+    async registration({dispatch}, {email, password}) {
+      try {
+        await firebase.auth().createUserWithEmailAndPassword(email, password);
+        const  uid = await dispatch("getUID");
+        await firebase.database().ref(`users/${uid}/info`).set({
+          userName: email
+        });
+      } catch (err) {
+        console.log(err);
+        throw err;
+      }
+    }
   },
   modules: {},
 });

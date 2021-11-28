@@ -35,7 +35,7 @@
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button data-test="submit" type="primary">Sign Up</el-button>
+          <el-button data-test="submit" type="primary" @click="submitRegForm('ruleForm')">Sign Up</el-button>
           <el-button data-test="reset">Reset</el-button>
         </el-form-item>
       </el-form>
@@ -48,6 +48,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import firebase from "firebase/compat";
 
 @Component
 export default class RegistrationPage extends Vue {
@@ -99,6 +100,32 @@ export default class RegistrationPage extends Vue {
       ],
     };
   }
+
+  submitRegForm(formName: any) {
+    (this.$refs[formName] as any).validate(async (valid: any) => {
+      if (valid) {
+        const formData = {
+          email: this.ruleForm.email,
+          password: this.ruleForm.password,
+        };
+
+        try {
+          await this.$store.dispatch("registration", formData);
+          const authUser = {
+            accessToken: await firebase.auth().currentUser?.getIdToken(),
+          }
+          await localStorage.setItem("currentUser", JSON.stringify(authUser));
+
+          await this.$router.push("/");
+        } catch (err) {
+          console.log(err);
+        }
+      } else {
+        console.log("error submit!!");
+        return false;
+      }
+    });
+  }
 }
 </script>
 <style lang="scss">
@@ -119,11 +146,9 @@ export default class RegistrationPage extends Vue {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     label {
       width: 35% !important;
     }
-
     .el-form-item__content {
       flex: 1;
       margin-left: 0 !important;
