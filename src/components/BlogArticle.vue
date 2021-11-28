@@ -6,7 +6,6 @@
           <h3>{{ item.title }}</h3>
         </el-col>
       </el-row>
-
       <el-row type="flex" justify="center" class="post-sub-title">
         <el-col :span="5">
           Destination:<br />
@@ -58,9 +57,11 @@ export default class BlogArticle extends Vue {
 <style lang="scss">
 .post-view {
   margin-bottom: 40px;
+
   &:first-child {
     margin-top: 20px;
   }
+
   h3 {
     margin: 0;
     font-size: 36px;
@@ -68,22 +69,27 @@ export default class BlogArticle extends Vue {
     text-align: center;
     color: #1e1e1e;
   }
+
   img {
     width: 100%;
   }
+
   .post-sub-title {
     margin: 25px 0;
+
     div {
       text-align: center;
       font-weight: normal;
       font-size: 14px;
       line-height: 18px;
       color: #9b9b9b;
+
       strong {
         color: #4a4a4a;
       }
     }
   }
+
   .post-button {
     text-align: center;
     margin: 15px 0;

@@ -35,8 +35,15 @@
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button data-test="submit" type="primary" @click="submitRegForm('ruleForm')">Sign Up</el-button>
-          <el-button data-test="reset">Reset</el-button>
+          <el-button
+            data-test="submit"
+            type="primary"
+            @click="submitRegForm('ruleForm')"
+            >Sign Up
+          </el-button>
+          <el-button data-test="reset" @click="resetForm('ruleForm')"
+            >Reset
+          </el-button>
         </el-form-item>
       </el-form>
       <div>
@@ -113,12 +120,12 @@ export default class RegistrationPage extends Vue {
           await this.$store.dispatch("registration", formData);
           const authUser = {
             accessToken: await firebase.auth().currentUser?.getIdToken(),
-          }
+          };
           await localStorage.setItem("currentUser", JSON.stringify(authUser));
 
           await this.$router.push("/");
         } catch (err) {
-          console.log(err);
+          console.error(err);
         }
       } else {
         console.log("error submit!!");
@@ -126,6 +133,7 @@ export default class RegistrationPage extends Vue {
       }
     });
   }
+
   resetForm(formName: any): void {
     const ref: any = this.$refs[formName];
     ref.resetFields();
@@ -146,13 +154,16 @@ export default class RegistrationPage extends Vue {
   @media (max-width: 576px) {
     margin: 0;
   }
+
   &-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     label {
       width: 35% !important;
     }
+
     .el-form-item__content {
       flex: 1;
       margin-left: 0 !important;

@@ -52,7 +52,7 @@ import firebase from "firebase/compat/app";
 
 @Component
 export default class LoginPage extends Vue {
-  validateEmail = (rule: any, value: string, callback: any) => {
+  validateEmail = (rule: any, value: string, callback: any): void => {
     const validationRule = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
     if (!validationRule.test(value)) {
       callback(new Error("Please input the correct email"));
@@ -103,12 +103,12 @@ export default class LoginPage extends Vue {
           await this.$store.dispatch("login", formData);
           const authUser = {
             accessToken: await firebase.auth().currentUser?.getIdToken(),
-          }
+          };
           await localStorage.setItem("currentUser", JSON.stringify(authUser));
 
           await this.$router.push("/");
         } catch (err) {
-          console.log(err);
+          console.error(err);
         }
       } else {
         console.log("error submit!!");
