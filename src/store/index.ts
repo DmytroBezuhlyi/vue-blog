@@ -58,7 +58,7 @@ export default new Vuex.Store({
     },
     getUID() {
       const user = firebase.auth()?.currentUser;
-      return user.uid || null;
+      return user?.uid || {};
     },
     async logout({ dispatch }) {
       await firebase.auth().signOut();

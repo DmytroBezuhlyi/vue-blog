@@ -98,7 +98,7 @@ export default class LoginPage extends Vue {
         try {
           await this.$store.dispatch("login", formData);
           const authUser = {
-            accessToken: await firebase.auth().currentUser.getIdToken(),
+            accessToken: await firebase.auth().currentUser?.getIdToken(),
           }
           await localStorage.setItem("currentUser", JSON.stringify(authUser));
 
