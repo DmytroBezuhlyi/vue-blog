@@ -7,7 +7,7 @@
         </a>
       </el-col>
       <el-col class="header-menu" :span="12">
-        <div v-if="$route.name !== 'Login'">
+        <div v-if="$route.name !== 'LoginPage'">
           <el-button plain size="mini" class="mobile-nav" @click="menuNav">
             <i v-if="menuIsActive" class="el-icon-close"></i>
             <i v-else class="el-icon-menu"></i>
@@ -29,7 +29,7 @@
           </el-menu>
         </div>
         <el-button
-          v-if="$route.name !== 'Login'"
+          v-if="$route.name !== 'LoginPage'"
           data-test="logout"
           @click="logout"
           class="logout-btn"
@@ -53,7 +53,8 @@ export default class HeaderComponent extends Vue {
   lang = "en";
 
   logout(): void {
-    localStorage.clear();
+    this.$store.dispatch("logout");
+    localStorage.removeItem("currentUser");
     this.$router.push({ name: "LoginPage" });
   }
 
@@ -67,35 +68,28 @@ export default class HeaderComponent extends Vue {
   padding: 0;
   position: relative;
 }
-
 .header-menu {
   width: 100%;
   display: flex;
   justify-content: flex-end;
 }
-
 .el-menu--horizontal.el-menu {
   border: none;
-
   .el-menu-item {
     background: transparent;
-
     a {
       font-size: 16px;
       text-decoration: none;
     }
-
     &.is-active {
       border: none;
     }
   }
-
   @media (max-width: 768px) {
     display: none;
     opacity: 0;
     background: #585757;
   }
-
   &.isOpen {
     position: absolute;
     width: 100%;
@@ -104,7 +98,6 @@ export default class HeaderComponent extends Vue {
     opacity: 1;
   }
 }
-
 .mobile-nav {
   display: none;
   margin: 15px 10px 0 0;
@@ -115,20 +108,16 @@ export default class HeaderComponent extends Vue {
     display: block;
   }
 }
-
 .header-logo {
   padding: 5px 10px;
   display: flex;
-
   img {
     max-width: 100%;
   }
 }
-
 .el-radio-group {
   margin: 15px 15px 0 0;
 }
-
 .logout-btn {
   margin: 15px 15px 0 0;
   font-size: 14px;

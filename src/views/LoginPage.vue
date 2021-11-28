@@ -44,6 +44,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import firebase from "firebase/compat/app";
 
 @Component
 export default class LoginPage extends Vue {
@@ -87,18 +88,23 @@ export default class LoginPage extends Vue {
   }
 
   submitForm(formName: any) {
-    (this.$refs[formName] as any).validate((valid: any) => {
+    (this.$refs[formName] as any).validate(async (valid: any) => {
       if (valid) {
-        if (
-          this.ruleForm.email === "test@gmail.com" &&
-          this.ruleForm.password === "12345"
-        ) {
-          const token = JSON.stringify(new Date().getTime());
-          localStorage.setItem("currentUser", token);
+        const formData = {
+          email: this.ruleForm.email,
+          password: this.ruleForm.password,
+        };
 
-          this.$router.push("/");
-        } else {
-          console.log("error submit!!");
+        try {
+          await this.$store.dispatch("login", formData);
+          const authUser = {
+            accessToken: await firebase.auth().currentUser.getIdToken(),
+          }
+          await localStorage.setItem("currentUser", JSON.stringify(authUser));
+
+          await this.$router.push("/");
+        } catch (err) {
+          console.log(err);
         }
       } else {
         console.log("error submit!!");
