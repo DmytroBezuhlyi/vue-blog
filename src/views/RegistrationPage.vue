@@ -63,8 +63,8 @@ export default class RegistrationPage extends Vue {
   validatePass = (rule: any, value: string, callback: any) => {
     if (value === "") {
       callback(new Error("Please input the password"));
-    } else if (value.length < 3 || value.length > 50) {
-      callback(new Error("Length should be 3 to 50"));
+    } else if (value.length < 6 || value.length > 20) {
+      callback(new Error("Length should be 6 to 20"));
     } else {
       callback();
     }
