@@ -28,6 +28,10 @@
             </el-menu-item>
           </el-menu>
         </div>
+        <div class="user-icon">
+          <i class="el-icon-user-solid"></i>
+          <span>{{ userName }}</span>
+        </div>
         <el-button
           v-if="$route.name !== 'LoginPage'"
           data-test="logout"
@@ -43,7 +47,9 @@
   </el-header>
 </template>
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
+import "firebase/database";
+import firebase from "firebase/compat";
 
 @Component({})
 export default class HeaderComponent extends Vue {
@@ -51,6 +57,10 @@ export default class HeaderComponent extends Vue {
   menuIsActive = false;
 
   lang = "en";
+
+  get userName() {
+    return this.$store.getters.getInfo.userName;
+  }
 
   logout(): void {
     this.$store.dispatch("logout");
@@ -61,70 +71,84 @@ export default class HeaderComponent extends Vue {
   menuNav(): void {
     this.menuIsActive = !this.menuIsActive;
   }
+
+  async mounted() {
+    await this.$store.dispatch('fetchInfo');
+  }
 }
 </script>
 <style lang="scss" scoped>
 .el-header {
   padding: 0;
   position: relative;
-}
-.header-menu {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-}
-.el-menu--horizontal.el-menu {
-  border: none;
-  .el-menu-item {
-    background: transparent;
-    a {
-      font-size: 16px;
-      text-decoration: none;
-    }
-    &.is-active {
-      border: none;
+  .header-logo {
+    padding: 5px 10px;
+    display: flex;
+    img {
+      max-width: 100%;
     }
   }
-  @media (max-width: 768px) {
-    display: none;
-    opacity: 0;
-    background: #585757;
-  }
-  &.isOpen {
-    position: absolute;
+  .header-menu {
     width: 100%;
-    top: 60px;
-    display: block;
-    opacity: 1;
-  }
-}
-.mobile-nav {
-  display: none;
-  margin: 15px 10px 0 0;
-  font-size: 14px;
-  height: 29px;
-  padding: 0 5px;
-  @media (max-width: 768px) {
-    display: block;
-  }
-}
-.header-logo {
-  padding: 5px 10px;
-  display: flex;
-  img {
-    max-width: 100%;
-  }
-}
-.el-radio-group {
-  margin: 15px 15px 0 0;
-}
-.logout-btn {
-  margin: 15px 15px 0 0;
-  font-size: 14px;
-  height: 29px;
-  @media (max-width: 480px) {
-    .text-block {
+    display: flex;
+    justify-content: flex-end;
+    .user-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+      i {
+        margin-bottom: 5px;
+        margin-right: 15px;
+      }
+    }
+    .el-menu--horizontal.el-menu {
+      border: none;
+      .el-menu-item {
+        background: transparent;
+        a {
+          font-size: 16px;
+          text-decoration: none;
+        }
+        &.is-active {
+          border: none;
+        }
+      }
+      @media (max-width: 768px) {
+        display: none;
+        opacity: 0;
+        background: #585757;
+      }
+      &.isOpen {
+        position: absolute;
+        width: 100%;
+        top: 60px;
+        display: block;
+        opacity: 1;
+      }
+    }
+    .mobile-nav {
       display: none;
+      margin: 15px 10px 0 0;
+      font-size: 14px;
+      height: 29px;
+      padding: 0 5px;
+      @media (max-width: 768px) {
+        display: block;
+      }
+    }
+  }
+  .el-radio-group {
+    margin: 15px 15px 0 0;
+  }
+  .logout-btn {
+    margin: 15px 15px 0 0;
+    font-size: 14px;
+    height: 29px;
+    @media (max-width: 480px) {
+      .text-block {
+        display: none;
+      }
     }
   }
 }

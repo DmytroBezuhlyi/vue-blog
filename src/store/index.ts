@@ -1,11 +1,12 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import firebase from "firebase/compat";
+import firebase from "firebase/compat/app";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    info: {},
     articles: [
       {
         id: 1,
@@ -46,10 +47,17 @@ export default new Vuex.Store({
     getArticleByID(state, id: number) {
       return state.articles.find((article) => article.id === id);
     },
+    getInfo(state) {
+      return state.info;
+    },
   },
-  mutations: {},
+  mutations: {
+    setInfo(state, info) {
+      state.info = info;
+    },
+  },
   actions: {
-    async login({ dispatch }, { email, password }) {
+    async login({ dispatch }, { email, password }: FormData) {
       try {
         await firebase.auth().signInWithEmailAndPassword(email, password);
       } catch (err) {
@@ -67,7 +75,7 @@ export default new Vuex.Store({
       const user = firebase.auth()?.currentUser;
       return user?.uid || {};
     },
-    async logout({ dispatch }) {
+    async logout() {
       await firebase.auth().signOut();
     },
     async registration({ dispatch }, { email, password }) {
@@ -83,6 +91,13 @@ export default new Vuex.Store({
         }
         throw err;
       }
+    },
+    async fetchInfo({ dispatch, commit }) {
+      const uid = await dispatch("getUID");
+      const info = (
+        await firebase.database().ref(`/users/${uid}/info`).once("value")
+      ).val();
+      commit("setInfo", info);
     },
   },
   modules: {},
