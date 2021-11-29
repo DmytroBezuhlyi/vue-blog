@@ -30,7 +30,7 @@
         </div>
         <div class="user-icon">
           <i class="el-icon-user-solid"></i>
-          <span>{{ userName }}</span>
+          <span class="user-name">{{ userName }}</span>
         </div>
         <el-button
           v-if="$route.name !== 'LoginPage'"
@@ -73,7 +73,7 @@ export default class HeaderComponent extends Vue {
   }
 
   async mounted() {
-    await this.$store.dispatch('fetchInfo');
+    await this.$store.dispatch("fetchInfo");
   }
 }
 </script>
@@ -102,8 +102,21 @@ export default class HeaderComponent extends Vue {
         margin-right: 15px;
       }
     }
+    .user-name {
+      display: none;
+    }
     .el-menu--horizontal.el-menu {
       border: none;
+      flex-direction: column;
+      flex-wrap: wrap;
+      @media (max-width: 768px) {
+        right: 0;
+        width: auto !important;
+        z-index: 1;
+      }
+      @media (max-width: 576px) {
+        width: 100% !important;
+      }
       .el-menu-item {
         background: transparent;
         a {

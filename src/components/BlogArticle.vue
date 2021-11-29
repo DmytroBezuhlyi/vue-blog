@@ -2,31 +2,31 @@
   <el-row type="flex" justify="center">
     <el-col :xs="23" :sm="22" :md="20" :lg="18" :xl="18" class="post-view">
       <el-row type="flex" justify="center">
-        <el-col :span="12">
+        <el-col :span="12" :xs="22">
           <h3>{{ item.title }}</h3>
         </el-col>
       </el-row>
       <el-row type="flex" justify="center" class="post-sub-title">
-        <el-col :span="5">
+        <el-col :span="6" :xs="24">
           Destination:<br />
           <strong>{{ item.destination }}</strong>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="6" :xs="24">
           Author:<br />
           <strong>{{ item.author }}</strong>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="6" :xs="24">
           Posted date:<br />
           <strong>{{ item.postTime }}</strong>
         </el-col>
       </el-row>
       <el-row type="flex" justify="center">
-        <el-col :span="16">
+        <el-col :span="20" :xs="22">
           <img :src="item.image" alt="article image" />
         </el-col>
       </el-row>
       <el-row type="flex" justify="center">
-        <el-col :span="12">
+        <el-col :span="18" :xs="22">
           <p>{{ item.text }}</p>
         </el-col>
       </el-row>
@@ -57,6 +57,7 @@ export default class BlogArticle extends Vue {
 <style lang="scss">
 .post-view {
   margin-bottom: 40px;
+  max-width: 1170px;
 
   &:first-child {
     margin-top: 20px;
@@ -76,6 +77,14 @@ export default class BlogArticle extends Vue {
 
   .post-sub-title {
     margin: 25px 0;
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: center;
+
+      div:not(:last-of-type) {
+        margin-bottom: 15px;
+      }
+    }
 
     div {
       text-align: center;
