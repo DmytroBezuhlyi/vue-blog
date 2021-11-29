@@ -54,7 +54,7 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    async login({ dispatch }, { email, password }: FormData) {
+    async login({ dispatch }, { email, password }) {
       try {
         await firebase.auth().signInWithEmailAndPassword(email, password);
       } catch (err) {
