@@ -44,9 +44,6 @@ export default new Vuex.Store({
     getArticles(state) {
       return state.articles;
     },
-    getArticleByID(state, id: number) {
-      return state.articles.find((article) => article.id === id);
-    },
     getInfo(state) {
       return state.info;
     },
@@ -99,6 +96,9 @@ export default new Vuex.Store({
       ).val();
       commit("setInfo", info);
     },
+    getArticleByID({state}, id) {
+      return state.articles.find(art => art.id === id);
+    }
   },
   modules: {},
 });
