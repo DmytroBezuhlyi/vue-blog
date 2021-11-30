@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <BlogHeader />
+    <BlogHeader v-if="$route.name !== 'Page404'"/>
     <el-main>
       <router-view></router-view>
     </el-main>
