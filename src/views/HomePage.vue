@@ -19,6 +19,7 @@ export default class Home extends Vue {
 
   mounted() {
     this.articles = this.$store.getters.getArticles;
+    this.$store.dispatch('fetchInfo');
   }
 }
 </script>

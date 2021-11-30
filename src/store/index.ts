@@ -72,8 +72,9 @@ export default new Vuex.Store({
       const user = firebase.auth()?.currentUser;
       return user?.uid || {};
     },
-    async logout() {
+    async logout({commit}) {
       await firebase.auth().signOut();
+      commit('setInfo', {})
     },
     async registration({ dispatch }, { email, password }) {
       try {
