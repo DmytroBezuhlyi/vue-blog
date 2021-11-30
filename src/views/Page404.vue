@@ -17,7 +17,7 @@ import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class PageNotFound extends Vue {}
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .page-not-found {
   display: flex;
   height: 100vh;
