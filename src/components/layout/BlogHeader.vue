@@ -1,12 +1,12 @@
 <template>
   <el-header height="auto">
     <el-row type="flex" justify="space-between">
-      <el-col class="header-logo" :span="12">
+      <el-col class="header-logo" :span="8">
         <router-link to="/">
           <img src="@/assets/img/header-logo.svg" alt="logo" />
         </router-link>
       </el-col>
-      <el-col class="header-menu" :span="12">
+      <el-col class="header-menu" :span="12" :xs="10" :sm="16">
         <div v-if="$route.name !== 'LoginPage'">
           <el-button plain size="mini" class="mobile-nav" @click="menuNav">
             <i v-if="menuIsActive" class="el-icon-close"></i>
@@ -91,7 +91,7 @@ export default class HeaderComponent extends Vue {
   }
 
   .header-menu {
-    width: 100%;
+    //width: 100%;
     display: flex;
     justify-content: flex-end;
 
@@ -108,7 +108,9 @@ export default class HeaderComponent extends Vue {
     }
 
     .user-name {
-      display: none;
+      @media (max-width: 576px) {
+        display: none;
+      }
     }
 
     .el-menu--horizontal.el-menu {
