@@ -5,7 +5,7 @@ import AboutPage from "@/views/AboutPage.vue";
 import ArticlePage from "@/views/ArticlePage.vue";
 import LoginPage from "@/views/LoginPage.vue";
 import RegistrationPage from "@/views/RegistrationPage.vue";
-import PageNotFound from "@/views/PageNotFound.vue";
+import Page404 from "@/views/Page404.vue";
 import firebase from "firebase/compat";
 
 Vue.use(VueRouter);
@@ -43,8 +43,8 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: "/404",
-    name: "404",
-    component: PageNotFound,
+    name: "Page404",
+    component: Page404,
   },
   {
     path: "*",
