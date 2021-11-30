@@ -1,32 +1,43 @@
 <template>
-  <el-row type="flex" justify="center">
-    <el-col :xs="23" :sm="22" :md="20" :lg="18" :xl="18" class="post-view">
+  <el-row type="flex" justify="center" :class="viewMode ? '' : 'block-el-row'">
+    <el-col
+      :xs="23"
+      :sm="22"
+      :md="20"
+      :lg="viewMode ? 18 : 22"
+      class="post-view"
+      v-if="item.title.toLowerCase().includes(search.toLowerCase())"
+    >
       <el-row type="flex" justify="center">
-        <el-col :span="12" :xs="22">
+        <el-col :span="viewMode ? 12 : 24" :xs="22">
           <h3>{{ item.title }}</h3>
         </el-col>
       </el-row>
-      <el-row type="flex" justify="center" class="post-sub-title">
-        <el-col :span="6" :xs="24">
+      <el-row
+        type="flex"
+        justify="center"
+        :class="viewMode ? 'post-sub-title' : 'post-sub-title-block'"
+      >
+        <el-col :span="viewMode ? 6 : 24" :xs="24">
           Destination:<br />
           <strong>{{ item.destination }}</strong>
         </el-col>
-        <el-col :span="6" :xs="24">
+        <el-col :span="viewMode ? 6 : 24" :xs="24">
           Author:<br />
           <strong>{{ item.author }}</strong>
         </el-col>
-        <el-col :span="6" :xs="24">
+        <el-col :span="viewMode ? 6 : 24" :xs="24">
           Posted date:<br />
           <strong>{{ item.postTime }}</strong>
         </el-col>
       </el-row>
       <el-row type="flex" justify="center">
-        <el-col :span="20" :xs="22">
+        <el-col :span="viewMode ? 20 : 24" :xs="22">
           <img :src="item.image" alt="article image" />
         </el-col>
       </el-row>
       <el-row type="flex" justify="center">
-        <el-col :span="18" :xs="22">
+        <el-col :span="viewMode ? 18 : 24" :xs="22">
           <p>{{ item.text }}</p>
         </el-col>
       </el-row>
@@ -45,6 +56,8 @@ import { Item } from "@/types/index.ts";
 @Component
 export default class BlogArticle extends Vue {
   @Prop() item?: Item;
+  @Prop({ default: "" }) search?: string;
+  @Prop({ required: true, default: true }) viewMode?: boolean;
 
   viewMore(id: string, item: any): void {
     this.$router.push({
@@ -55,6 +68,12 @@ export default class BlogArticle extends Vue {
 }
 </script>
 <style lang="scss">
+.block-el-row {
+  width: 50%;
+  @media (max-width: 480px) {
+    width: 100%;
+  }
+}
 .post-view {
   margin-bottom: 40px;
   max-width: 1170px;
@@ -102,6 +121,12 @@ export default class BlogArticle extends Vue {
   .post-button {
     text-align: center;
     margin: 15px 0;
+  }
+}
+.post-sub-title-block {
+  flex-direction: column;
+  div {
+    padding: 5px;
   }
 }
 </style>
