@@ -33,11 +33,13 @@ const routes: Array<RouteConfig> = [
     path: "/login",
     name: "LoginPage",
     component: LoginPage,
+    meta: { onlyNotAuthorized: true },
   },
   {
     path: "/registration",
     name: "RegistrationPage",
     component: RegistrationPage,
+    meta: { onlyNotAuthorized: true },
   },
   {
     path: "/404",
@@ -60,10 +62,10 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  if (to.matched.some((rec) => rec.meta.requiresAuth)) {
-    const authUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
-    const token = await firebase.auth().currentUser?.getIdToken();
+  const authUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+  const token = await firebase.auth().currentUser?.getIdToken();
 
+  if (to.matched.some((rec) => rec.meta.requiresAuth)) {
     if (
       token &&
       authUser &&
@@ -73,6 +75,17 @@ router.beforeEach(async (to, from, next) => {
       next();
     } else {
       next({ name: "LoginPage" });
+    }
+  } else if (to.matched.some((rec) => rec.meta.onlyNotAuthorized)) {
+    if (
+      !token ||
+      !authUser ||
+      !authUser.accessToken ||
+      token !== authUser.accessToken
+    ) {
+      next();
+    } else {
+      next({ name: "HomePage" });
     }
   } else {
     next();

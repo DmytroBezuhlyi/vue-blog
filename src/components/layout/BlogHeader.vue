@@ -7,7 +7,11 @@
         </router-link>
       </el-col>
       <el-col class="header-menu" :span="12" :xs="10" :sm="16">
-        <div v-if="$route.name !== 'LoginPage'">
+        <div
+          v-if="
+            $route.name !== 'LoginPage' && $route.name !== 'RegistrationPage'
+          "
+        >
           <el-button plain size="mini" class="mobile-nav" @click="menuNav">
             <i v-if="menuIsActive" class="el-icon-close"></i>
             <i v-else class="el-icon-menu"></i>
@@ -28,12 +32,14 @@
             </el-menu-item>
           </el-menu>
         </div>
-        <div class="user-icon">
+        <div class="user-icon" v-if="this.$store.getters.getAuth">
           <i class="el-icon-user-solid"></i>
           <span class="user-name">{{ userName }}</span>
         </div>
         <el-button
-          v-if="$route.name !== 'LoginPage'"
+          v-if="
+            $route.name !== 'LoginPage' && $route.name !== 'RegistrationPage'
+          "
           data-test="logout"
           @click="logout"
           class="logout-btn"
@@ -72,7 +78,9 @@ export default class HeaderComponent extends Vue {
   }
 
   async mounted() {
-    await this.$store.dispatch("fetchInfo");
+    if (this.$store.getters.getAuth) {
+      await this.$store.dispatch("fetchInfo");
+    }
   }
 }
 </script>

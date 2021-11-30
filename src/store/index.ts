@@ -7,6 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     info: {},
+    auth: false,
     articles: [
       {
         id: 1,
@@ -47,16 +48,23 @@ export default new Vuex.Store({
     getInfo(state) {
       return state.info;
     },
+    getAuth(state) {
+      return state.auth;
+    },
   },
   mutations: {
     setInfo(state, info) {
       state.info = info;
     },
+    setAuth(state, token) {
+      state.auth = token;
+    },
   },
   actions: {
-    async login({ dispatch }, { email, password }) {
+    async login({ dispatch, commit }, { email, password }) {
       try {
         await firebase.auth().signInWithEmailAndPassword(email, password);
+        commit("setAuth", true);
       } catch (err) {
         console.log(err);
         if (err.code === "auth/wrong-password") {
@@ -72,17 +80,18 @@ export default new Vuex.Store({
       const user = firebase.auth()?.currentUser;
       return user?.uid || {};
     },
-    async logout({commit}) {
+    async logout({ commit }) {
       await firebase.auth().signOut();
-      commit('setInfo', {})
+      commit("setInfo", {});
     },
-    async registration({ dispatch }, { email, password }) {
+    async registration({ dispatch, commit }, { email, password }) {
       try {
         await firebase.auth().createUserWithEmailAndPassword(email, password);
         const uid = await dispatch("getUID");
         await firebase.database().ref(`users/${uid}/info`).set({
           userName: email,
         });
+        await commit("setAuth", true);
       } catch (err) {
         if (err.code === "auth/email-already-in-use") {
           alert("User already exist");
@@ -97,9 +106,9 @@ export default new Vuex.Store({
       ).val();
       commit("setInfo", info);
     },
-    getArticleByID({state}, id) {
-      return state.articles.find(art => art.id === id);
-    }
+    getArticleByID({ state }, id) {
+      return state.articles.find((art) => art.id === id);
+    },
   },
   modules: {},
 });
