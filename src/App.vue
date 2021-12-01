@@ -15,6 +15,11 @@ import BlogFooter from "@/components/layout/BlogFooter";
 export default {
   name: "app",
   components: { BlogFooter, BlogHeader },
+  created() {
+    if (localStorage.getItem('currentUser')) {
+      this.$store.commit('setAuth', true);
+    }
+  }
 };
 </script>
 <style></style>
