@@ -88,39 +88,32 @@ export default class HeaderComponent extends Vue {
 .el-header {
   padding: 0;
   position: relative;
-
   .header-logo {
     padding: 5px 10px;
     display: flex;
-
     img {
       max-width: 100%;
     }
   }
-
   .header-menu {
     //width: 100%;
     display: flex;
     justify-content: flex-end;
-
     .user-icon {
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 15px;
-
       i {
         margin-bottom: 5px;
         margin-right: 15px;
       }
     }
-
     .user-name {
       @media (max-width: 576px) {
         display: none;
       }
     }
-
     .el-menu--horizontal.el-menu {
       border: none;
       flex-direction: column;
@@ -133,26 +126,21 @@ export default class HeaderComponent extends Vue {
       @media (max-width: 576px) {
         width: 100% !important;
       }
-
       .el-menu-item {
         background: transparent;
-
         a {
           font-size: 16px;
           text-decoration: none;
         }
-
         &.is-active {
           border: none;
         }
       }
-
       @media (max-width: 768px) {
         display: none;
         opacity: 0;
         background: #585757;
       }
-
       &.isOpen {
         position: absolute;
         width: 100%;
@@ -161,7 +149,6 @@ export default class HeaderComponent extends Vue {
         opacity: 1;
       }
     }
-
     .mobile-nav {
       display: none;
       margin: 15px 10px 0 0;
@@ -173,11 +160,9 @@ export default class HeaderComponent extends Vue {
       }
     }
   }
-
   .el-radio-group {
     margin: 15px 15px 0 0;
   }
-
   .logout-btn {
     margin: 15px 15px 0 0;
     font-size: 14px;

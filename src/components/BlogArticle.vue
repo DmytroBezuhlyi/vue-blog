@@ -77,15 +77,22 @@ export default class BlogArticle extends Vue {
   @media (max-width: 480px) {
     width: 100%;
   }
+  .post-view {
+    img {
+      object-fit: inherit;
+      object-position: top;
+      max-width: 100%;
+      max-height: 500px;
+      height: auto;
+    }
+  }
 }
 .post-view {
   margin-bottom: 40px;
   max-width: 1170px;
-
   &:first-child {
     margin-top: 20px;
   }
-
   h3 {
     margin: 0;
     font-size: 36px;
@@ -93,35 +100,29 @@ export default class BlogArticle extends Vue {
     text-align: center;
     color: #1e1e1e;
   }
-
   img {
     width: 100%;
   }
-
   .post-sub-title {
     margin: 25px 0;
     @media (max-width: 768px) {
       flex-direction: column;
       align-items: center;
-
       div:not(:last-of-type) {
         margin-bottom: 15px;
       }
     }
-
     div {
       text-align: center;
       font-weight: normal;
       font-size: 14px;
       line-height: 18px;
       color: #9b9b9b;
-
       strong {
         color: #4a4a4a;
       }
     }
   }
-
   .post-button {
     text-align: center;
     margin: 15px 0;
