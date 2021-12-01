@@ -38,7 +38,7 @@
       </el-row>
       <el-row type="flex" justify="center">
         <el-col :span="viewMode ? 18 : 24" :xs="22">
-          <p>{{ item.text }}</p>
+          <p>{{ truncate(item.text, 230) }}</p>
         </el-col>
       </el-row>
       <el-row type="flex" justify="center">
@@ -58,6 +58,10 @@ export default class BlogArticle extends Vue {
   @Prop() item?: Item;
   @Prop({ default: "" }) search?: string;
   @Prop({ required: true, default: true }) viewMode?: boolean;
+
+  truncate(content: string, length: number) {
+    return content.slice(0, length) + '... ';
+  }
 
   viewMore(id: string, item: any): void {
     this.$router.push({
