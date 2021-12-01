@@ -4,7 +4,7 @@
       <el-col :span="12" :xs="20" class="articles-control">
         <el-input placeholder="Search" v-model="searchValue"></el-input>
         <el-tooltip
-          class="item"
+          class="view-toggle"
           effect="dark"
           content="Change view"
           placement="top-start"
@@ -48,7 +48,6 @@ export default class Home extends Vue {
 
   mounted() {
     this.articles = this.$store.getters.getArticles;
-    this.$store.dispatch("fetchInfo");
   }
 }
 </script>
@@ -58,10 +57,15 @@ export default class Home extends Vue {
     display: inline-block;
     width: 250px;
     margin: 0 5px 0 0;
-    @media (max-width: 768px) {
+    @media (max-width: 576px) {
       display: block;
       width: 100%;
       margin: 0 0 5px 0;
+    }
+  }
+  @media (max-width: 576px) {
+    .view-toggle {
+      display: none;
     }
   }
 }
@@ -69,5 +73,8 @@ export default class Home extends Vue {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
+  @media (max-width: 576px) {
+    display: block;
+  }
 }
 </style>

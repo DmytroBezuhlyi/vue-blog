@@ -70,6 +70,10 @@ export default class BlogArticle extends Vue {
 <style lang="scss">
 .block-el-row {
   width: 50%;
+  @media (max-width: 576px) {
+    width: 75%;
+    margin: 0 auto;
+  }
   @media (max-width: 480px) {
     width: 100%;
   }
