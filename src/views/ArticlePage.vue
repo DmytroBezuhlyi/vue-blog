@@ -31,8 +31,8 @@ export default class ArticlePage extends Vue {
   content = "";
 
   async mounted() {
-    const currentPostId = this.$route.params.id;
-    this.content = await this.$store.dispatch('getArticleByID', 1);
+    const currentPostId = parseInt(this.$route.params.id);
+    this.content = await this.$store.dispatch('getArticleByID', currentPostId);
   }
 
   backToArticles(): void {
