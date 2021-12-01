@@ -1,6 +1,6 @@
 <template>
   <el-row type="flex" justify="center">
-    <el-col :span="12">
+    <el-col>
       <h1>Login</h1>
       <el-form
         :model="ruleForm"
