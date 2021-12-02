@@ -1,6 +1,6 @@
 <template>
   <el-row type="flex" justify="center">
-    <el-col :span="12">
+    <el-col>
       <h1>Login</h1>
       <el-form
         :model="ruleForm"
@@ -30,7 +30,7 @@
           <el-button
             data-test="submit"
             type="primary"
-            @click="submitForm('ruleForm')"
+            @click="submitLoginForm('ruleForm')"
           >
             Login
           </el-button>
@@ -39,15 +39,20 @@
           </el-button>
         </el-form-item>
       </el-form>
+      <div>
+        Haven't had an account yet? Please,
+        <router-link to="/registration">sing up</router-link>
+      </div>
     </el-col>
   </el-row>
 </template>
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import firebase from "firebase/compat/app";
 
 @Component
 export default class LoginPage extends Vue {
-  validateEmail = (rule: any, value: string, callback: any) => {
+  validateEmail = (rule: any, value: string, callback: any): void => {
     const validationRule = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
     if (!validationRule.test(value)) {
       callback(new Error("Please input the correct email"));
@@ -77,28 +82,33 @@ export default class LoginPage extends Vue {
           trigger: "blur",
         },
         {
-          min: 3,
-          max: 50,
-          message: "Length should be 3 to 50",
+          min: 6,
+          max: 20,
+          message: "Length should be 6 to 20",
           trigger: "blur",
         },
       ],
     };
   }
 
-  submitForm(formName: any) {
-    (this.$refs[formName] as any).validate((valid: any) => {
+  submitLoginForm(formName: any) {
+    (this.$refs[formName] as any).validate(async (valid: any) => {
       if (valid) {
-        if (
-          this.ruleForm.email === "test@gmail.com" &&
-          this.ruleForm.password === "12345"
-        ) {
-          const token = JSON.stringify(new Date().getTime());
-          localStorage.setItem("currentUser", token);
+        const formData = {
+          email: this.ruleForm.email,
+          password: this.ruleForm.password,
+        };
 
-          this.$router.push("/");
-        } else {
-          console.log("error submit!!");
+        try {
+          await this.$store.dispatch("login", formData);
+          const authUser = {
+            accessToken: await firebase.auth().currentUser?.getIdToken(),
+          };
+          await localStorage.setItem("currentUser", JSON.stringify(authUser));
+
+          await this.$router.push("/");
+        } catch (err) {
+          console.error(err);
         }
       } else {
         console.log("error submit!!");

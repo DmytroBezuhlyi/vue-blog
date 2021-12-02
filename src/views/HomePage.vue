@@ -1,8 +1,31 @@
 <template>
   <div class="home">
-    <h1>Home Page</h1>
-    <div v-if="articles">
-      <BlogArticle v-for="item in articles" :key="item.id" :item="item" />
+    <el-row type="flex" justify="center">
+      <el-col :span="12" :xs="20" class="articles-control">
+        <el-input placeholder="Search" v-model="searchValue"></el-input>
+        <el-tooltip
+          class="view-toggle"
+          effect="dark"
+          content="Change view"
+          placement="top-start"
+        >
+          <el-button
+            type="primary"
+            :icon="viewMode ? 'el-icon-menu' : 'el-icon-tickets'"
+            circle
+            @click="changeView"
+          ></el-button>
+        </el-tooltip>
+      </el-col>
+    </el-row>
+    <div v-if="articles" :class="viewMode ? '' : 'block-view'">
+      <BlogArticle
+        v-for="item in articles"
+        :key="item.id"
+        :item="item"
+        :search="searchValue"
+        :viewMode="viewMode"
+      />
     </div>
     <div v-else>Page is empty</div>
   </div>
@@ -15,38 +38,43 @@ import BlogArticle from "@/components/BlogArticle.vue";
   components: { BlogArticle },
 })
 export default class Home extends Vue {
-  articles = [
-    {
-      id: 1,
-      title: "Article #1",
-      destination: "Europe",
-      author: "John Williams Doe",
-      postTime: "January 01, 2018",
-      image:
-        "https://c4.wallpaperflare.com/wallpaper/295/806/430/beautiful-scenery-mountains-lake-nature-wallpaper-preview.jpg",
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis viverra sapien. Mauris vehicula est vitae sodales aliquam. Aliquam sem nisl, pretium et justo vitae, sagittis dictum nunc. Nulla facilisi. Sed ultrices nisl lorem, in consequat urna facilisis a. Sed eu hendrerit risus.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis viverra sapien. Mauris vehicula est vitae sodales aliquam. Aliquam sem nisl, pretium et justo vitae, sagittis dictum nunc. Nulla facilisi. Sed ultrices nisl lorem, in consequat urna facilisis a. Sed eu hendrerit risus.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis viverra sapien. Mauris vehicula est vitae sodales aliquam. Aliquam sem nisl, pretium et justo vitae, sagittis dictum nunc. Nulla facilisi. Sed ultrices nisl lorem, in consequat urna facilisis a. Sed eu hendrerit risus.",
-    },
-    {
-      id: 2,
-      title: "Article #2",
-      destination: "Europe",
-      author: "Added by John Williams Doe2",
-      postTime: "January 02, 2019",
-      image:
-        "https://c4.wallpaperflare.com/wallpaper/983/716/976/mount-scenery-national-park-alberta-banff-national-park-wallpaper-preview.jpg",
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis viverra sapien. Mauris vehicula est vitae sodales aliquam. Aliquam sem nisl, pretium et justo vitae, sagittis dictum nunc. Nulla facilisi. Sed ultrices nisl lorem, in consequat urna facilisis a. Sed eu hendrerit risus.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis viverra sapien. Mauris vehicula est vitae sodales aliquam. Aliquam sem nisl, pretium et justo vitae, sagittis dictum nunc. Nulla facilisi. Sed ultrices nisl lorem, in consequat urna facilisis a. Sed eu hendrerit risus.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis viverra sapien. Mauris vehicula est vitae sodales aliquam. Aliquam sem nisl, pretium et justo vitae, sagittis dictum nunc. Nulla facilisi. Sed ultrices nisl lorem, in consequat urna facilisis a. Sed eu hendrerit risus.",
-    },
-    {
-      id: 3,
-      title: "Article #3",
-      destination: "Europe",
-      author: "Added by John Williams Doe 3",
-      postTime: "January 03, 2020",
-      image:
-        "https://c4.wallpaperflare.com/wallpaper/649/484/984/photography-landscape-nature-mountains-wallpaper-preview.jpg",
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis viverra sapien. Mauris vehicula est vitae sodales aliquam. Aliquam sem nisl, pretium et justo vitae, sagittis dictum nunc. Nulla facilisi. Sed ultrices nisl lorem, in consequat urna facilisis a. Sed eu hendrerit risus.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis viverra sapien. Mauris vehicula est vitae sodales aliquam. Aliquam sem nisl, pretium et justo vitae, sagittis dictum nunc. Nulla facilisi. Sed ultrices nisl lorem, in consequat urna facilisis a. Sed eu hendrerit risus.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis viverra sapien. Mauris vehicula est vitae sodales aliquam. Aliquam sem nisl, pretium et justo vitae, sagittis dictum nunc. Nulla facilisi. Sed ultrices nisl lorem, in consequat urna facilisis a. Sed eu hendrerit risus.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis viverra sapien. Mauris vehicula est vitae sodales aliquam. Aliquam sem nisl, pretium et justo vitae, sagittis dictum nunc. Nulla facilisi. Sed ultrices nisl lorem, in consequat urna facilisis a. Sed eu hendrerit risus.",
-    },
-  ];
+  searchValue = "";
+  viewMode = true;
+  articles = "";
+
+  changeView() {
+    this.viewMode = !this.viewMode;
+  }
+
+  mounted() {
+    this.articles = this.$store.getters.getArticles;
+  }
 }
 </script>
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.articles-control {
+  .el-input {
+    display: inline-block;
+    width: 250px;
+    margin: 0 5px 0 0;
+    @media (max-width: 576px) {
+      display: block;
+      width: 100%;
+      margin: 0 0 5px 0;
+    }
+  }
+  @media (max-width: 576px) {
+    .view-toggle {
+      display: none;
+    }
+  }
+}
+.block-view {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  @media (max-width: 576px) {
+    display: block;
+  }
+}
+</style>
