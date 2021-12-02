@@ -1,13 +1,17 @@
 <template>
   <el-header height="auto">
     <el-row type="flex" justify="space-between">
-      <el-col class="header-logo" :span="12">
-        <a href="#">
+      <el-col class="header-logo" :span="8">
+        <router-link to="/">
           <img src="@/assets/img/header-logo.svg" alt="logo" />
-        </a>
+        </router-link>
       </el-col>
-      <el-col class="header-menu" :span="12">
-        <div v-if="$route.name !== 'Login'">
+      <el-col class="header-menu" :span="12" :xs="10" :sm="16">
+        <div
+          v-if="
+            $route.name !== 'LoginPage' && $route.name !== 'RegistrationPage'
+          "
+        >
           <el-button plain size="mini" class="mobile-nav" @click="menuNav">
             <i v-if="menuIsActive" class="el-icon-close"></i>
             <i v-else class="el-icon-menu"></i>
@@ -28,8 +32,14 @@
             </el-menu-item>
           </el-menu>
         </div>
+        <div class="user-icon" v-if="this.$store.getters.getAuth">
+          <i class="el-icon-user-solid"></i>
+          <span class="user-name">{{ userName }}</span>
+        </div>
         <el-button
-          v-if="$route.name !== 'Login'"
+          v-if="
+            $route.name !== 'LoginPage' && $route.name !== 'RegistrationPage'
+          "
           data-test="logout"
           @click="logout"
           class="logout-btn"
@@ -43,7 +53,8 @@
   </el-header>
 </template>
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
+import "firebase/database";
 
 @Component({})
 export default class HeaderComponent extends Vue {
@@ -52,13 +63,24 @@ export default class HeaderComponent extends Vue {
 
   lang = "en";
 
+  get userName() {
+    return this.$store.getters.getInfo.userName;
+  }
+
   logout(): void {
-    localStorage.clear();
+    this.$store.dispatch("logout");
+    localStorage.removeItem("currentUser");
     this.$router.push({ name: "LoginPage" });
   }
 
   menuNav(): void {
     this.menuIsActive = !this.menuIsActive;
+  }
+
+  async mounted() {
+    if (this.$store.getters.getAuth) {
+      await this.$store.dispatch("fetchInfo");
+    }
   }
 }
 </script>
@@ -66,76 +88,89 @@ export default class HeaderComponent extends Vue {
 .el-header {
   padding: 0;
   position: relative;
-}
-
-.header-menu {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.el-menu--horizontal.el-menu {
-  border: none;
-
-  .el-menu-item {
-    background: transparent;
-
-    a {
-      font-size: 16px;
-      text-decoration: none;
+  .header-logo {
+    padding: 5px 10px;
+    display: flex;
+    img {
+      max-width: 100%;
     }
-
-    &.is-active {
+  }
+  .header-menu {
+    //width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    .user-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+      i {
+        margin-bottom: 5px;
+        margin-right: 15px;
+      }
+    }
+    .user-name {
+      @media (max-width: 576px) {
+        display: none;
+      }
+    }
+    .el-menu--horizontal.el-menu {
       border: none;
+      flex-direction: column;
+      flex-wrap: wrap;
+      @media (max-width: 768px) {
+        right: 0;
+        width: auto !important;
+        z-index: 1;
+      }
+      @media (max-width: 576px) {
+        width: 100% !important;
+      }
+      .el-menu-item {
+        background: transparent;
+        a {
+          font-size: 16px;
+          text-decoration: none;
+        }
+        &.is-active {
+          border: none;
+        }
+      }
+      @media (max-width: 768px) {
+        display: none;
+        opacity: 0;
+        background: #585757;
+      }
+      &.isOpen {
+        position: absolute;
+        width: 100%;
+        top: 60px;
+        display: block;
+        opacity: 1;
+      }
+    }
+    .mobile-nav {
+      display: none;
+      margin: 15px 10px 0 0;
+      font-size: 14px;
+      height: 29px;
+      padding: 0 5px;
+      @media (max-width: 768px) {
+        display: block;
+      }
     }
   }
-
-  @media (max-width: 768px) {
-    display: none;
-    opacity: 0;
-    background: #585757;
+  .el-radio-group {
+    margin: 15px 15px 0 0;
   }
-
-  &.isOpen {
-    position: absolute;
-    width: 100%;
-    top: 60px;
-    display: block;
-    opacity: 1;
-  }
-}
-
-.mobile-nav {
-  display: none;
-  margin: 15px 10px 0 0;
-  font-size: 14px;
-  height: 29px;
-  padding: 0 5px;
-  @media (max-width: 768px) {
-    display: block;
-  }
-}
-
-.header-logo {
-  padding: 5px 10px;
-  display: flex;
-
-  img {
-    max-width: 100%;
-  }
-}
-
-.el-radio-group {
-  margin: 15px 15px 0 0;
-}
-
-.logout-btn {
-  margin: 15px 15px 0 0;
-  font-size: 14px;
-  height: 29px;
-  @media (max-width: 480px) {
-    .text-block {
-      display: none;
+  .logout-btn {
+    margin: 15px 15px 0 0;
+    font-size: 14px;
+    height: 29px;
+    @media (max-width: 480px) {
+      .text-block {
+        display: none;
+      }
     }
   }
 }

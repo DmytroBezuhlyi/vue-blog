@@ -30,8 +30,9 @@ import { Component, Vue } from "vue-property-decorator";
 export default class ArticlePage extends Vue {
   content = "";
 
-  mounted(): void {
-    this.content = this.$route.params.item;
+  async mounted() {
+    const currentPostId = parseInt(this.$route.params.id);
+    this.content = await this.$store.dispatch('getArticleByID', currentPostId);
   }
 
   backToArticles(): void {

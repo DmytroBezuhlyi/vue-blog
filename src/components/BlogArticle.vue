@@ -1,34 +1,44 @@
 <template>
-  <el-row type="flex" justify="center">
-    <el-col :xs="23" :sm="22" :md="20" :lg="18" :xl="18" class="post-view">
+  <el-row type="flex" justify="center" :class="viewMode ? '' : 'block-el-row'">
+    <el-col
+      :xs="23"
+      :sm="22"
+      :md="20"
+      :lg="viewMode ? 18 : 22"
+      class="post-view"
+      v-if="item.title.toLowerCase().includes(search.toLowerCase())"
+    >
       <el-row type="flex" justify="center">
-        <el-col :span="12">
+        <el-col :span="viewMode ? 12 : 24" :xs="22">
           <h3>{{ item.title }}</h3>
         </el-col>
       </el-row>
-
-      <el-row type="flex" justify="center" class="post-sub-title">
-        <el-col :span="5">
+      <el-row
+        type="flex"
+        justify="center"
+        :class="viewMode ? 'post-sub-title' : 'post-sub-title-block'"
+      >
+        <el-col :span="viewMode ? 6 : 24" :xs="24">
           Destination:<br />
           <strong>{{ item.destination }}</strong>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="viewMode ? 6 : 24" :xs="24">
           Author:<br />
           <strong>{{ item.author }}</strong>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="viewMode ? 6 : 24" :xs="24">
           Posted date:<br />
           <strong>{{ item.postTime }}</strong>
         </el-col>
       </el-row>
       <el-row type="flex" justify="center">
-        <el-col :span="16">
+        <el-col :span="viewMode ? 20 : 24" :xs="22">
           <img :src="item.image" alt="article image" />
         </el-col>
       </el-row>
       <el-row type="flex" justify="center">
-        <el-col :span="12">
-          <p>Article Text Content</p>
+        <el-col :span="viewMode ? 18 : 24" :xs="22">
+          <p>{{ truncate(item.text, 230) }}</p>
         </el-col>
       </el-row>
       <el-row type="flex" justify="center">
@@ -46,6 +56,12 @@ import { Item } from "@/types/index.ts";
 @Component
 export default class BlogArticle extends Vue {
   @Prop() item?: Item;
+  @Prop({ default: "" }) search?: string;
+  @Prop({ required: true, default: true }) viewMode?: boolean;
+
+  truncate(content: string, length: number) {
+    return content.slice(0, length) + '... ';
+  }
 
   viewMore(id: string, item: any): void {
     this.$router.push({
@@ -56,8 +72,28 @@ export default class BlogArticle extends Vue {
 }
 </script>
 <style lang="scss">
+.block-el-row {
+  width: 50%;
+  @media (max-width: 576px) {
+    width: 75%;
+    margin: 0 auto;
+  }
+  @media (max-width: 480px) {
+    width: 100%;
+  }
+  .post-view {
+    img {
+      object-fit: inherit;
+      object-position: top;
+      max-width: 100%;
+      max-height: 500px;
+      height: auto;
+    }
+  }
+}
 .post-view {
   margin-bottom: 40px;
+  max-width: 1170px;
   &:first-child {
     margin-top: 20px;
   }
@@ -73,6 +109,13 @@ export default class BlogArticle extends Vue {
   }
   .post-sub-title {
     margin: 25px 0;
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: center;
+      div:not(:last-of-type) {
+        margin-bottom: 15px;
+      }
+    }
     div {
       text-align: center;
       font-weight: normal;
@@ -87,6 +130,12 @@ export default class BlogArticle extends Vue {
   .post-button {
     text-align: center;
     margin: 15px 0;
+  }
+}
+.post-sub-title-block {
+  flex-direction: column;
+  div {
+    padding: 5px;
   }
 }
 </style>

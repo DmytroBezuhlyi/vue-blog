@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <BlogHeader />
+    <BlogHeader v-if="$route.name !== 'Page404'"/>
     <el-main>
       <router-view></router-view>
     </el-main>
@@ -15,6 +15,11 @@ import BlogFooter from "@/components/layout/BlogFooter";
 export default {
   name: "app",
   components: { BlogFooter, BlogHeader },
+  created() {
+    if (localStorage.getItem('currentUser')) {
+      this.$store.commit('setAuth', true);
+    }
+  }
 };
 </script>
 <style></style>
